@@ -34,6 +34,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Image</th>
                     <th>category</th>
                     <th></th>
                 </tr>
@@ -43,6 +45,11 @@
                     <tr>
                         <td>${item.id}</td>
                         <td>${item.nameProduct}</td>
+                        <td>${item.price}</td>
+                        <td>
+                            <img alt="" src="<c:url value="uploads"/>/images/${item.image}" width="100px" />
+                        </td>
+
                         <td>${item.category.name}</td>
                         <td>
                             <a href="edit-category/${item.id}">EDIT</a>

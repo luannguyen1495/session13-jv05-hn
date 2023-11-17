@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Luannv
@@ -16,5 +17,6 @@
     <a href="category">Quản lý danh mục</a>
 
     <a href="product">Quản lý danh sách sản phẩm</a>
+    <img alt="" src="<c:url value="uploads"/>/images/ok.png">
 </body>
 </html>

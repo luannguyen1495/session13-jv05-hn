@@ -17,7 +17,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Boolean create(Product product) {
-        return null;
+        return productDAO.create(product);
     }
 
     @Override

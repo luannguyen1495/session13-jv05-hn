@@ -31,6 +31,7 @@ public class ProductDAOImpl implements  ProductDAO {
                 product.setId(rs.getInt("id"));
                 product.setNameProduct(rs.getString("name_product"));
                 product.setPrice(rs.getDouble("price"));
+                product.setImage(rs.getString("image"));
                 Category category = categoryDAO.findById(rs.getInt("category_id"));
                 product.setCategory(category);
                 list.add(product);
@@ -45,7 +46,25 @@ public class ProductDAOImpl implements  ProductDAO {
 
     @Override
     public Boolean create(Product product) {
-        return null;
+        Boolean isCheck = false ;
+        Connection connection = null;
+        try {
+            connection = ConnectionDB.openConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO product (name_product,price,category_id,image ) VALUES (?,?,?,?)");
+            preparedStatement.setString(1,product.getNameProduct());
+            preparedStatement.setDouble(2,product.getPrice());
+            preparedStatement.setInt(3,product.getCategory().getId());
+            preparedStatement.setString(4,product.getImage());
+            int check = preparedStatement.executeUpdate();
+            if ( check > 0 ) {
+                isCheck = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return isCheck;
     }
 
     @Override

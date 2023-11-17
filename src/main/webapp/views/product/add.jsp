@@ -24,25 +24,30 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-6">
-            <f:form modelAttribute="category" action="/create-category" method="post">
+            <f:form modelAttribute="product" action="create-product" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Name</label>
-                    <f:input type="text" class="form-control" id="exampleInputEmail1" path="name" />
+                    <label >Product Name</label>
+                    <f:input type="text" path="nameProduct" class="form-control"  />
                 </div>
                 <div class="form-group">
-                    <label>Status</label>
-                    <div class="form-check-inline">
-                        <label class="form-check-label">
-                            <f:radiobutton class="form-check-input" value="0" path="status" />An
-                        </label>
-                    </div>
-                    <div class="form-check-inline">
-                        <label class="form-check-label">
-                            <f:radiobutton  class="form-check-input" value="1" checked="checked" path="status" />Hien
-                        </label>
-                    </div>
+                    <label >Price</label>
+                    <f:input type="text" path="price" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="">Category</label>
+                    <f:select class="form-control" path="category.id" id="">
+                        <c:forEach items="${categories}" var="item">
+                            <option value="${item.id}">${item.name}</option>
+                        </c:forEach>
+
+                    </f:select>
                 </div>
 
+                <div class="form-group">
+                    <label for="">Imgae</label>
+                    <input type="file" src="" alt="" name="img_upload">
+
+                </div>
                 <button type="submit" class="btn btn-primary">Thêm moi</button>
             </f:form>
         </div>
