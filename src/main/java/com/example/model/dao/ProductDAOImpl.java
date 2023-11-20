@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 @Repository
 public class ProductDAOImpl implements  ProductDAO {
     @Autowired
@@ -69,12 +68,58 @@ public class ProductDAOImpl implements  ProductDAO {
 
     @Override
     public Boolean update(Product product, Integer integer) {
-        return null;
+
+        Boolean isCheck = false ;
+        Connection connection = null;
+        try {
+            connection = ConnectionDB.openConnection();
+            String sql = "UPDATE product SET name_product =?, price = ?,image=?,category_id=? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,product.getNameProduct());
+            preparedStatement.setDouble(2,product.getPrice());
+            preparedStatement.setString(3,product.getImage());
+            preparedStatement.setInt(4,product.getCategory().getId());
+            preparedStatement.setInt(5,integer);
+            int check = preparedStatement.executeUpdate();
+            if ( check > 0 ) {
+                isCheck = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return isCheck;
     }
 
     @Override
     public Product findById(Integer integer) {
-        return null;
+
+        Product product = new Product();
+        Connection connection = null;
+        connection = ConnectionDB.openConnection();
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM product WHERE id=?");
+            pstm.setInt(1,integer);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                product.setId(rs.getInt("id"));
+                product.setNameProduct(rs.getString("name_product"));
+                product.setPrice(rs.getDouble("price"));
+                product.setImage(rs.getString("image"));
+                Category category = categoryDAO.findById(rs.getInt("category_id"));
+                product.setCategory(category);
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+
+        return product;
+
     }
 
     @Override

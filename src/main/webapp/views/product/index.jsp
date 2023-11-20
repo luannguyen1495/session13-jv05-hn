@@ -52,14 +52,14 @@
 
                         <td>${item.category.name}</td>
                         <td>
-                            <a href="edit-category/${item.id}">EDIT</a>
+                            <a href="edit-product/${item.id}">EDIT</a>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
 
-            <a class="btn btn-success" href="add-category">Them moi</a>
+            <a class="btn btn-success" href="add-product">Them moi</a>
         </div>
     </div>
 </div>

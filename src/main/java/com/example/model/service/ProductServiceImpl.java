@@ -21,13 +21,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean update(Product product, Integer integer) {
-        return null;
+    public Boolean update(Product product, Integer integer)
+    {
+        return productDAO.update(product,integer);
     }
 
     @Override
     public Product findById(Integer integer) {
-        return null;
+        return productDAO.findById(integer);
     }
 
     @Override

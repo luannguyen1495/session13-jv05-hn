@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,4 +59,36 @@ public class ProductController {
         productService.create(product);
         return "redirect:/product";
     }
+
+    @RequestMapping("edit-product/{id}")
+    public String edit(@PathVariable("id") Integer id,Model model){
+        Product product = productService.findById(id);
+        System.out.println(product.getNameProduct());
+//        Product product = new Product();
+        model.addAttribute("product",product);
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories",categories);
+        return "product/edit";
+    }
+
+    @RequestMapping("update-product/{id}")
+    public String update(@PathVariable("id") Integer id , @ModelAttribute("product") Product product,@RequestParam("img_upload") MultipartFile file, HttpServletRequest request){
+        // xử lý upload ảnh
+        if(file != null && !file.isEmpty()){
+            // xư ly upload file
+            String path = request.getServletContext().getRealPath("uploads/images");
+            String fileName = file.getOriginalFilename();
+            File destination = new File(path+"/"+fileName);
+            try {
+                Files.write(destination.toPath(), file.getBytes(), StandardOpenOption.CREATE);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            product.setImage(fileName);
+        }
+        productService.update(product,id);
+
+        return "redirect:/product";
+    }
 }
+
